@@ -28,7 +28,7 @@ RUN apk update \
     && apk add --no-cache ca-certificates tzdata \
     && rm -rf /var/cache/apk/*
 
-COPY --from=builder /home/rust/src/rust-docker-web/target/x86_64-unknown-linux-musl/release/latinify ${APP}/latinify
+COPY --from=builder /home/rust/src/latinify/target/x86_64-unknown-linux-musl/release/latinify ${APP}/latinify
 
 RUN chown -R $APP_USER:$APP_USER ${APP}
 
