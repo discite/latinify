@@ -1,6 +1,8 @@
 FROM ekidd/rust-musl-builder:stable as builder
 
 RUN USER=root cargo new --bin latinify
+RUN echo $(ls -1ah)
+RUN echo $(pwd)
 WORKDIR /latinify/
 RUN echo $(ls -1ah /latinify/)
 COPY ./Cargo.lock ./Cargo.lock
