@@ -1,6 +1,6 @@
 FROM ekidd/rust-musl-builder:stable as builder
 
-RUN USER=root cargo new --bin rust-docker-web
+RUN USER=root cargo new --bin latinify
 WORKDIR /usr/src/latinify
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
