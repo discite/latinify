@@ -1,18 +1,13 @@
 FROM ekidd/rust-musl-builder:stable as builder
 
 RUN USER=root cargo new --bin latinify
-RUN echo $(ls -1ah)
-RUN echo $(pwd)
-WORKDIR /latinify/
-RUN echo $(ls -1ah /latinify/)
+WORKDIR /home/rust/src/latinify/
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
 RUN cargo build --release
 RUN rm src/*.rs
 
-
 ADD . ./
-
 RUN rm ./target/x86_64-unknown-linux-musl/release/deps/latinify*
 RUN cargo build --release
 
