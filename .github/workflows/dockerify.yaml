@@ -32,11 +32,7 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ steps.tag_version.outputs.new_tag }}
             ghcr.io/${{ github.repository }}:latest
           push: true
-  
-  set_to_k8s:
-    name: Push Docker image to GitHub Container Registry
-    runs-on: ubuntu-latest
-    steps:
+
       - name: deploy to cluster
         uses: steebchen/kubectl@master
         env:
