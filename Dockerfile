@@ -14,6 +14,9 @@ RUN cargo build --release
 
 
 FROM alpine:latest
+
+LABEL org.opencontainers.image.source https://github.com/discite/latinify
+
 ARG APP=/usr/src/app
 
 EXPOSE 8000
