@@ -43,7 +43,7 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          args: set image --record deployment/latinify container=ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
+          args: set image --record deployment/latinify latinify=ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
       - name: verify deployment
         uses: steebchen/kubectl@master
         env:
