@@ -32,13 +32,18 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ steps.tag_version.outputs.new_tag }}
             ghcr.io/${{ github.repository }}:latest
           push: true
-
+  
+  push_to_cluster:
+    name: Push Docker image to the kubernetes cluster
+    needs: [push_to_registry]
+    runs-on: ubuntu-latest
+    steps:
       - name: deploy to cluster
         uses: steebchen/kubectl@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          args: set image --record deployment/latinify container=ghcr.io/${{ github.repository }}:${{ steps.tag_version.outputs.new_tag }}
+          args: set image --record deployment/latinify container=ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
       - name: verify deployment
         uses: steebchen/kubectl@master
         env:
