@@ -1,32 +1,30 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, web, App, HttpResponse, HttpServer, Responder, Result};
+use serde::Deserialize;
 
-#[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+#[derive(Deserialize)]
+struct Message {
+    msg: String,
 }
 
 #[get("/health")]
 async fn health() -> impl Responder {
-    HttpResponse::Ok().body("OK")
+    HttpResponse::Ok()
 }
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
-}
-
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
+#[get("/{msg}/")]
+async fn message_transcript(info: web::Path<Message>) -> Result<String> {
+    Ok(format!(
+        "Transcript {}!",
+        info.msg
+    ))
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .service(hello)
-            .service(echo)
             .service(health)
-            .route("/hey", web::get().to(manual_hello))
+            .service(message_transcript)
     })
     .bind("0.0.0.0:8000")?
     .run()
