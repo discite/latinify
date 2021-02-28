@@ -1,3 +1,6 @@
+mod strings;
+use strings::upscale_string;
+
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder, Result};
 use serde::Deserialize;
 
@@ -6,17 +9,18 @@ struct Message {
     msg: String,
 }
 
-#[get("/health")]
+#[get("/health/")]
 async fn health() -> impl Responder {
     HttpResponse::Ok()
 }
 
 #[get("/{msg}/")]
 async fn message_transcript(info: web::Path<Message>) -> Result<String> {
-    Ok(format!(
-        "Transcript {}!",
-        info.msg
-    ))
+    let input: String = info.msg.clone();
+    let transcript:String = upscale_string(input);
+    return Ok(format!(
+        "{}",transcript
+    ));
 }
 
 #[actix_web::main]
